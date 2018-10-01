@@ -1,0 +1,19 @@
+{
+  "name": "bookstore-api-nodejs-tutorial",
+  "version": "1.0.0",
+  "description": "This project is the part of bookstore-api Node JS tutorial written on Medium",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hemil96/bookstore-api-nodejs-tutorial.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hemil96/bookstore-api-nodejs-tutorial/issues"
+  },
+  "homepage": "https://github.com/Hemil96/bookstore-api-nodejs-tutorial#readme"
+}
