@@ -77,7 +77,7 @@ exports.update = (req, res) => {
     .then(book => {
         if(!book) {
             return res.status(404).json({
-                message: "Book not found with id " +      req.params.bookId
+                message: "Book not found with id " + req.params.bookId
             });
         }
         res.status(200).json({ message : "Book updated!", data: book });
