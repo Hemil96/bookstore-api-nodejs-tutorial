@@ -8,11 +8,11 @@ module.exports = (app) => {
     app.get('/books', books.findAll);
 
     // Retrieve a single Book with bookId
-    app.get('/books/:bookId', books.findOne);
+    app.get('/book/:bookId', books.findOne);
 
     // Update a Book with bookId
-    app.put('/books/:bookId', books.update);
+    app.put('/book/:bookId', books.update);
 
     // Delete a Book with bookId
-    app.delete('/books/:bookId', books.delete);
+    app.delete('/book/:bookId', books.delete);
 }
