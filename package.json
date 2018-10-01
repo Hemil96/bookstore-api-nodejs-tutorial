@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/Hemil96/bookstore-api-nodejs-tutorial/issues"
   },
-  "homepage": "https://github.com/Hemil96/bookstore-api-nodejs-tutorial#readme"
+  "homepage": "https://github.com/Hemil96/bookstore-api-nodejs-tutorial#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongoose": "^5.3.0"
+  }
 }
