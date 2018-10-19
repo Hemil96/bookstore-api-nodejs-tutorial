@@ -9,9 +9,7 @@ const DetailsBox = styled.article`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
-  max-height: 100%;
   padding: 56px 15px;
-  background-color: ${({ theme }) => theme.colors.default.bg};
 `;
 
 const OverviewSection = styled.section`

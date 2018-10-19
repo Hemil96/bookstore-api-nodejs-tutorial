@@ -5,9 +5,9 @@ export const PrimaryButton = styled.button`
   width: 100%;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.medium};
-  letter-spacing: 1.2px;
+  letter-spacing: 1.1px;
   cursor: pointer;
   box-shadow: 0px 0px 0px #888;
   background-color: ${({ theme }) => theme.colors.primary.bg};

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NavLink as RouterNavLink } from 'react-router-dom';
 
 import searchIcon from '../img/search.svg';
 
@@ -16,14 +17,22 @@ const StyledNavbar = styled.nav`
   }
 `;
 
-const Brand = styled.a`
+const Brand = styled.h1`
+  display: inline;
+  font-weight: 400;
+  margin: 0;
   font-size: 24px;
   text-shadow: 0px 1px 1px #000000;
 `;
 
-const NavLink = styled.a`
+const NavLink = styled(RouterNavLink)`
   font-size: 18px;
   padding-right: 35px;
+  font-weight: ${({ theme }) => theme.fontWeights.light};
+
+  &.active {
+    font-weight: ${({ theme }) => theme.fontWeights.medium};
+  }
 `;
 
 const SearchBar = styled.input`
@@ -51,10 +60,14 @@ class Navbar extends React.Component {
   render() {
     return (
       <StyledNavbar>
-        <Brand href="#">Darnes and Global</Brand>
+        <Brand>Darnes and Global</Brand>
         <div>
-          <NavLink href="#">Buy</NavLink>
-          <NavLink href="#">Sell</NavLink>
+          <NavLink exact to={'/'} activeClassName={'active'}>
+            Buy
+          </NavLink>
+          <NavLink to={'/sell'} activeClassName={'active'}>
+            Sell
+          </NavLink>
           <SearchBar
             size="18"
             type="search"
