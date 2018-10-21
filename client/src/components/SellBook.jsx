@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { TextInput, Select, TextArea } from './FormInputs';
 import { PrimaryButton } from './Buttons';
+import { saveBook } from '../utils/books';
 
 const Container = styled.article`
   display: flex;
@@ -34,18 +35,59 @@ const formatOptions = [
 
 export default class SellBook extends React.Component {
   state = {
-    title: '',
-    author: '',
-    format: formatOptions[0].value,
-    price: null,
-    overview: '',
+    newBook: {
+      title: '',
+      author: '',
+      format: formatOptions[0].value,
+      price: null,
+      overview: '',
+    },
+    isSubmitting: false,
+    success: null,
+    error: null,
   };
 
-  handleChange = e => this.setState({ [e.target.name]: e.target.value });
+  handleChange = e => {
+    const { newBook } = this.state;
+    newBook[e.target.name] = e.target.value;
+    this.setState({ newBook });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
+
+    this.setState({ isSubmitting: true });
+
+    const { title, author, price } = this.state.newBook;
+    if (!(title && author && price)) {
+      // TODO error feedback
+      this.setState({
+        isSubmitting: false,
+        success: false,
+        error: 'Please enter title, author and price',
+      });
+      return;
+    }
+
+    // Convert string to number
+    const numericPrice = Number(price);
+
+    const newBook = {
+      ...this.state.newBook,
+      price: numericPrice,
+    };
+
+    saveBook(newBook)
+      .then(savedBook => {
+        this.setState({
+          newBook: savedBook,
+          isSubmitting: false,
+          success: true,
+          error: null,
+        });
+        // TODO success feedback
+      })
+      .catch(e => console.error(e));
   };
 
   render() {
