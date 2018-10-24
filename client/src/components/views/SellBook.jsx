@@ -74,17 +74,10 @@ class SellBook extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { title, author, price } = this.state.newBook;
-    if (!(title && author && price)) {
-      this.setState({
-        error: true,
-        feedback: 'Please enter title, author and price...',
-      });
-      return;
-    }
+    const { newBook } = this.state;
 
     // Convert string to number
-    const numericPrice = Number(price);
+    const numericPrice = Number(newBook.price);
     if (isNaN(numericPrice)) {
       this.setState({
         error: true,
@@ -96,13 +89,13 @@ class SellBook extends React.Component {
     // Input is valid
     this.setState({ isSubmitting: true });
 
-    const newBook = {
-      ...this.state.newBook,
+    const createdBook = {
+      ...newBook,
       price: numericPrice,
     };
 
     this.props
-      .handleSave(newBook)
+      .handleSave(createdBook)
       .then(() => {
         this.setState({
           newBook: initialBookState,
