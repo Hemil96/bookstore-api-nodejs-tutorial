@@ -19,12 +19,25 @@ const Header = styled.h2`
 `;
 
 const Message = styled.p`
-  font-weight: ${({ theme }) => theme.fontWeights.light};
+  font-weight: ${({ theme, error, success }) =>
+    error || success ? theme.fontWeights.semiBold : theme.fontWeights.light};
+  color: ${({ error, success }) =>
+    error ? 'red' : success ? 'green' : 'inherit'};
 `;
 
 const AddButton = styled(PrimaryButton)`
   height: 45px;
   margin-top: 10px;
+  transition: background 0.25s;
+
+  &:disabled {
+    background: #d1bdfe;
+    cursor: default;
+  }
+
+  &:hover {
+    box-shadow: none;
+  }
 `;
 
 // Options for "Format" select element
@@ -33,18 +46,22 @@ const formatOptions = [
   { value: 'hardcover', text: 'Hardcover' },
 ];
 
+// Initial state for new book form
+const initialBookState = {
+  title: '',
+  author: '',
+  format: formatOptions[0].value,
+  price: null,
+  overview: '',
+};
+
 export default class SellBook extends React.Component {
   state = {
-    newBook: {
-      title: '',
-      author: '',
-      format: formatOptions[0].value,
-      price: null,
-      overview: '',
-    },
+    newBook: initialBookState,
     isSubmitting: false,
-    success: null,
-    error: null,
+    success: false,
+    error: false,
+    feedback: '',
   };
 
   handleChange = e => {
@@ -56,21 +73,27 @@ export default class SellBook extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    this.setState({ isSubmitting: true });
-
     const { title, author, price } = this.state.newBook;
     if (!(title && author && price)) {
-      // TODO error feedback
       this.setState({
-        isSubmitting: false,
-        success: false,
-        error: 'Please enter title, author and price',
+        error: true,
+        feedback: 'Please enter title, author and price...',
       });
       return;
     }
 
     // Convert string to number
     const numericPrice = Number(price);
+    if (isNaN(numericPrice)) {
+      this.setState({
+        error: true,
+        feedback: 'Please enter a numeric price...',
+      });
+      return;
+    }
+
+    // Input is valid
+    this.setState({ isSubmitting: true });
 
     const newBook = {
       ...this.state.newBook,
@@ -78,23 +101,35 @@ export default class SellBook extends React.Component {
     };
 
     saveBook(newBook)
-      .then(savedBook => {
+      .then(() => {
         this.setState({
-          newBook: savedBook,
+          newBook: initialBookState,
           isSubmitting: false,
           success: true,
-          error: null,
+          error: false,
+          feedback: 'Successfully created new book!',
         });
-        // TODO success feedback
       })
-      .catch(e => console.error(e));
+      .catch(e => {
+        this.setState({
+          isSubmitting: false,
+          success: false,
+          error: true,
+          feedback: 'API error :(',
+        });
+      });
   };
 
   render() {
+    const { title, author, price } = this.state.newBook;
+    const { isSubmitting } = this.state;
+
     return (
       <Container>
         <Header>Sell Your Book</Header>
-        <Message>Please provide some information:</Message>
+        <Message error={this.state.error} success={this.state.success}>
+          {this.state.feedback || 'Please provide some information:'}
+        </Message>
         <form
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
@@ -110,7 +145,12 @@ export default class SellBook extends React.Component {
           />
           <TextInput name="price" label="Price" />
           <TextArea name="overview" label="Overview" rows={3} />
-          <AddButton type="submit">Add to Marketplace</AddButton>
+          <AddButton
+            type="submit"
+            disabled={!(title && author && price) || isSubmitting}
+          >
+            Add to Marketplace
+          </AddButton>
         </form>
       </Container>
     );
