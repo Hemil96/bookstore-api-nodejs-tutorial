@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router';
 
-import { BookDetails } from '../details';
-import { LandingPage, SellBook } from '../views';
+import { LandingPage } from '../views';
 
 const Container = styled.div`
   max-height: 100%;
@@ -14,14 +13,8 @@ const Container = styled.div`
 const RouterSwitch = props => (
   <Container>
     <Switch>
-      <Route
-        path="/details"
-        render={() => <BookDetails {...props.selectedBook} />}
-      />
-      <Route
-        path="/sell"
-        render={() => <SellBook handleSave={props.handleSave} />}
-      />
+      <Route path="/details" render={props.renderDetails} />
+      <Route path="/sell" render={props.renderSell} />
       <Route component={LandingPage} />
     </Switch>
   </Container>

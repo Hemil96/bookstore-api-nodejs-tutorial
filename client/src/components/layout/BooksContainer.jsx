@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { BookDetails } from '../details';
+import { SellBook } from '../views';
 import RouterSwitch from './RouterSwitch';
 import BookList from './BookList';
 import api from '../../api';
@@ -19,42 +21,45 @@ class BooksContainer extends React.Component {
     selectedBook: {},
   };
 
-  handleSave(newBook) {
-    return api.saveBook(newBook).then(savedBook => {
-      const books = [savedBook, ...this.state.books];
-      this.setState({ books });
-    });
-  }
-
-  // TODO just change the book in books array instead of calling db again
-  handleUpdate(id, updatedBook) {
-    return api
-      .updateBook(id, updatedBook)
-      .then(api.fetchBooks)
-      .then(books => this.setState({ books }));
-  }
-
-  // TODO just change the book in books array instead of calling db again
-  handleDelete(id) {
-    return api
-      .deleteBook(id)
-      .then(api.fetchBooks)
-      .then(books => this.setState({ books }));
-  }
-
   componentDidMount() {
     if (this.state.books.length === 0) {
       api.fetchBooks().then(books => this.setState({ books }));
     }
   }
 
+  handleSave = newBook => {
+    return api.saveBook(newBook).then(savedBook => {
+      const books = [savedBook, ...this.state.books];
+      this.setState({ books });
+    });
+  };
+
+  // TODO just change the book in books array instead of calling db again
+  handleUpdate = (id, updatedBook) => {
+    return api
+      .updateBook(id, updatedBook)
+      .then(api.fetchBooks)
+      .then(books => this.setState({ books }));
+  };
+
+  // TODO just change the book in books array instead of calling db again
+  handleDelete = id => {
+    return api
+      .deleteBook(id)
+      .then(api.fetchBooks)
+      .then(books => this.setState({ books }));
+  };
+
+  // Passed to React Router's Switch component. Prevents prop drilling.
+  routerProps = {
+    renderDetails: () => <BookDetails {...this.state.selectedBook} />,
+    renderSell: () => <SellBook handleSave={this.handleSave} />,
+  };
+
   render() {
     return (
       <Content>
-        <RouterSwitch
-          selectedBook={this.state.selectedBook}
-          handleSave={this.handleSave.bind(this)}
-        />
+        <RouterSwitch {...this.routerProps} />
         <BookList books={this.state.books} />
       </Content>
     );
