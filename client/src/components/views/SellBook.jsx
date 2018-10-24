@@ -9,7 +9,7 @@ const Container = styled.article`
   justify-content: space-between;
   flex-direction: column;
   align-items: stretch;
-  padding: 20px 0;
+  padding: 15px 0;
 `;
 
 const Header = styled.h2`
@@ -22,6 +22,7 @@ const Message = styled.p`
     error || success ? theme.fontWeights.semiBold : theme.fontWeights.light};
   color: ${({ error, success }) =>
     error ? 'red' : success ? 'green' : 'inherit'};
+  margin-top: 0;
 `;
 
 const AddButton = styled(PrimaryButton)`
@@ -54,8 +55,6 @@ const initialBookState = {
   overview: '',
 };
 
-// TODO clear form on submit
-// TODO too long.. max-height + padding should be 540. reduce margin on p
 class SellBook extends React.Component {
   state = {
     newBook: initialBookState,
@@ -64,6 +63,12 @@ class SellBook extends React.Component {
     error: false,
     feedback: '',
   };
+
+  componentDidMount() {
+    // Get reference to title input. Used again on submit
+    this.titleInput = document.querySelector('#title');
+    this.titleInput.focus();
+  }
 
   handleChange = e => {
     const { newBook } = this.state;
@@ -104,8 +109,14 @@ class SellBook extends React.Component {
           error: false,
           feedback: 'Successfully created new book!',
         });
+
+        // Reset form fields
+        document.forms.sellForm.reset();
+
+        // Focus title input
+        this.titleInput.focus();
       })
-      .catch(e => {
+      .catch(() => {
         this.setState({
           isSubmitting: false,
           success: false,
@@ -128,18 +139,18 @@ class SellBook extends React.Component {
         <form
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
-          name="Sell Form"
+          name="sellForm"
         >
-          <TextInput name="title" label="Title" />
-          <TextInput name="author" label="Author" />
+          <TextInput name="title" id="title" label="Title" />
+          <TextInput name="author" id="author" label="Author" />
           <Select
             name="format"
             label="Format"
             options={formatOptions}
             selected={formatOptions[0].value}
           />
-          <TextInput name="price" label="Price" />
-          <TextArea name="overview" label="Overview" rows={3} />
+          <TextInput name="price" id="price" label="Price" />
+          <TextArea name="overview" id="overview" label="Overview" rows={3} />
           <AddButton
             type="submit"
             disabled={!(title && author && price) || isSubmitting}

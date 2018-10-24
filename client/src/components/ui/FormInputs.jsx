@@ -26,10 +26,10 @@ const LongText = styled(InputBase)`
   resize: none;
 `;
 
-export const TextInput = ({ name, label, placeholder }) => (
+export const TextInput = ({ name, id, label, placeholder }) => (
   <Label htmlFor={name}>
     {label}
-    <Input as="input" name={name} placeholder={placeholder} />
+    <Input as="input" name={name} id={id} placeholder={placeholder} />
   </Label>
 );
 
