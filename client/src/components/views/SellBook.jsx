@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { TextInput, Select, TextArea } from './FormInputs';
-import { PrimaryButton } from './Buttons';
-import { saveBook } from '../utils/books';
+import { TextInput, Select, TextArea } from '../ui';
+import { PrimaryButton } from '../ui';
 
 const Container = styled.article`
   display: flex;
@@ -55,7 +54,9 @@ const initialBookState = {
   overview: '',
 };
 
-export default class SellBook extends React.Component {
+// TODO clear form on submit
+// TODO too long.. max-height + padding should be 540. reduce margin on p
+class SellBook extends React.Component {
   state = {
     newBook: initialBookState,
     isSubmitting: false,
@@ -100,7 +101,8 @@ export default class SellBook extends React.Component {
       price: numericPrice,
     };
 
-    saveBook(newBook)
+    this.props
+      .handleSave(newBook)
       .then(() => {
         this.setState({
           newBook: initialBookState,
@@ -156,3 +158,5 @@ export default class SellBook extends React.Component {
     );
   }
 }
+
+export default SellBook;

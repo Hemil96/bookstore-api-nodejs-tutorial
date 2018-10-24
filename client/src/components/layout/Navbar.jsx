@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 
-import searchIcon from '../img/search.svg';
+import searchIcon from '../../img/search.svg';
 
 const StyledNavbar = styled.nav`
   color: #f2f2f2;
@@ -50,6 +50,7 @@ const SearchBar = styled.input`
   color: ${({ theme }) => theme.colors.default.text};
 `;
 
+// TODO search functionality
 class Navbar extends React.Component {
   state = {
     search: '',

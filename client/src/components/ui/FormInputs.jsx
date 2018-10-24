@@ -12,18 +12,18 @@ const InputBase = styled.input`
   margin-bottom: 10px;
 `;
 
+const Label = styled.label`
+  font-size: 14px;
+`;
+
 const Input = styled(InputBase)`
   text-indent: 5px;
 `;
 
-export const LongText = styled(InputBase)`
+const LongText = styled(InputBase)`
   text-indent: 5px;
   font-family: inherit;
   resize: none;
-`;
-
-const Label = styled.label`
-  font-size: 14px;
 `;
 
 export const TextInput = ({ name, label, placeholder }) => (

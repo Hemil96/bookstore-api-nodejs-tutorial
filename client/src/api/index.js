@@ -1,9 +1,3 @@
-async function handleResponse(res) {
-  if (!res.ok) throw Error(res.statusText);
-  const { data } = await res.json();
-  return data;
-}
-
 function fetchBooks() {
   return fetch('/books').then(handleResponse);
 }
@@ -36,13 +30,16 @@ function deleteBook(id) {
   return fetch(`/books/${id}`, { method: 'DELETE' }).then(handleResponse);
 }
 
-const api = {
+async function handleResponse(res) {
+  if (!res.ok) throw Error(res.statusText);
+  const { data } = await res.json();
+  return data;
+}
+
+export default {
   fetchBooks,
   saveBook,
   getBookById,
   updateBook,
   deleteBook,
 };
-
-export default api;
-export { fetchBooks, saveBook, getBookById, updateBook, deleteBook };

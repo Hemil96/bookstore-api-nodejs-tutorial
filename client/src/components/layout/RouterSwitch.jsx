@@ -2,27 +2,29 @@ import React from 'react';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router';
 
-import BookDetails from './BookDetails';
-import LandingPage from './LandingPage';
-import SellBook from './SellBook';
+import { BookDetails } from '../details';
+import { LandingPage, SellBook } from '../views';
 
-const ContentContainer = styled.div`
+const Container = styled.div`
   max-height: 100%;
   padding: 10px 30px;
   background-color: ${({ theme }) => theme.colors.default.bg};
 `;
 
 const RouterSwitch = props => (
-  <ContentContainer>
+  <Container>
     <Switch>
       <Route
         path="/details"
         render={() => <BookDetails {...props.selectedBook} />}
       />
-      <Route path="/sell" component={SellBook} />
+      <Route
+        path="/sell"
+        render={() => <SellBook handleSave={props.handleSave} />}
+      />
       <Route component={LandingPage} />
     </Switch>
-  </ContentContainer>
+  </Container>
 );
 
 export default RouterSwitch;

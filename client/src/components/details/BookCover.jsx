@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import backdrop from '../img/book-backdrop.jpg';
+import backdrop from '../../img/book-backdrop.jpg';
 
 const FauxCover = styled.div`
   background-image: url(${backdrop});

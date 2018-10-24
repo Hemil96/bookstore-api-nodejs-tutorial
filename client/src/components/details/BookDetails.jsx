@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import BookCover from './BookCover';
 import BookPrice from './BookPrice';
-import { PrimaryButton as OrderButton } from './Buttons';
+import { PrimaryButton as OrderButton } from '../ui';
 
 const DetailsBox = styled.article`
   display: grid;
@@ -58,6 +58,7 @@ const ErrorState = () => (
   </DetailsBox>
 );
 
+// TODO cheeseburger icon to edit/delete book
 const BookDetails = ({ title, author, overview, price, format }) => {
   const hasError = !(author && title && price);
   if (hasError) return <ErrorState />;
