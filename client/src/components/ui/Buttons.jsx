@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+// TODO hover drop shadow looks awful
 export const PrimaryButton = styled.button`
   height: 100%;
   width: 100%;

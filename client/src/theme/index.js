@@ -16,6 +16,9 @@ const theme = {
       bg: '#24847F',
       text: '#EDFFFE',
     },
+    danger: {
+      bg: '#842429',
+    },
   },
   fontWeights: {
     light: 300,

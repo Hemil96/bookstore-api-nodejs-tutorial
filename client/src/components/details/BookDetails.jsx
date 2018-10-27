@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import ModifyOptions from './ModifyOptions';
+import ModifyMenu from './ModifyMenu';
 import BookCover from './BookCover';
 import BookPrice from './BookPrice';
 import { PrimaryButton as OrderButton } from '../ui';
@@ -65,7 +65,7 @@ const BookDetails = ({ title, author, overview, price, format }) => {
 
   return (
     <>
-      <ModifyOptions />
+      <ModifyMenu />
       <DetailsBox>
         <OverviewSection>
           <OverviewHeader>

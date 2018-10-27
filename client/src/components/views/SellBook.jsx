@@ -107,7 +107,7 @@ class SellBook extends React.Component {
           isSubmitting: false,
           success: true,
           error: false,
-          feedback: 'Successfully created new book!',
+          feedback: 'Successfully listed your book!',
         });
 
         // Reset form fields
