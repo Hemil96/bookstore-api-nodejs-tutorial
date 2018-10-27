@@ -68,7 +68,7 @@ const Option = styled.li`
   }
 `;
 
-const withToggler = toggleModal => (className, text) => (
+const createToggle = (toggleModal, className, text) => (
   <Toggle onClick={toggleModal} className={className}>
     {text}
   </Toggle>
@@ -97,13 +97,13 @@ const ModifyMenu = () => {
       <Options>
         <Option>
           <ModalToggle
-            renderToggle={toggler => withToggler(toggler)('modify', 'Modify')}
+            renderToggle={toggler => createToggle(toggler, 'modify', 'Modify')}
             renderModal={renderModifyModal}
           />
         </Option>
         <Option>
           <ModalToggle
-            renderToggle={toggler => withToggler(toggler)('delete', 'Delete')}
+            renderToggle={toggler => createToggle(toggler, 'delete', 'Delete')}
             renderModal={renderDeleteModal}
           />
         </Option>
