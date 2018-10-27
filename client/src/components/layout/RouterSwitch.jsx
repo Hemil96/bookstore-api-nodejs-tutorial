@@ -13,7 +13,7 @@ const Container = styled.div`
 const RouterSwitch = props => (
   <Container>
     <Switch>
-      <Route path="/details" render={props.renderDetails} />
+      <Route path="/details/:id" render={props.renderDetails} />
       <Route path="/sell" render={props.renderSell} />
       <Route component={LandingPage} />
     </Switch>

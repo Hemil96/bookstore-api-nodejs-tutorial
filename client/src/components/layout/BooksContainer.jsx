@@ -52,7 +52,11 @@ class BooksContainer extends React.Component {
 
   // Passed to React Router's Switch component. Prevents prop drilling.
   routerProps = {
-    renderDetails: () => <BookDetails {...this.state.selectedBook} />,
+    renderDetails: ({ match }) => (
+      <BookDetails
+        {...this.state.books.find(book => book._id === match.params.id)}
+      />
+    ),
     renderSell: () => <SellBook handleSave={this.handleSave} />,
   };
 

@@ -68,7 +68,7 @@ const BookDetails = ({ title, author, overview, price, format }) => {
       <OverviewSection>
         <OverviewHeader>
           <Title>{title}</Title>
-          <Author>{author && `By ${author}`}</Author>
+          <Author>{`By ${author}`}</Author>
         </OverviewHeader>
         <Overview>{overview}</Overview>
       </OverviewSection>

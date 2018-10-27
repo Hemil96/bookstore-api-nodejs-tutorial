@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 const BookListing = styled.aside`
   height: 100%;
@@ -56,16 +57,22 @@ const BookList = props => (
     <Header>Browse</Header>
     <List>
       {props.books.map(book => (
-        <Item key={book._id}>
-          <TitleAndPrice>
-            <span>{book.title}</span>
-            <span>${book.price}</span>
-          </TitleAndPrice>
-          <AuthorAndFormat>
-            <span>{book.author}</span>
-            <span>{book.format}</span>
-          </AuthorAndFormat>
-        </Item>
+        <NavLink
+          to={`/details/${book._id}`}
+          key={book._id}
+          activeClassName="selected"
+        >
+          <Item>
+            <TitleAndPrice>
+              <span>{book.title}</span>
+              <span>${book.price}</span>
+            </TitleAndPrice>
+            <AuthorAndFormat>
+              <span>{book.author}</span>
+              <span>{book.format}</span>
+            </AuthorAndFormat>
+          </Item>
+        </NavLink>
       ))}
     </List>
   </BookListing>

@@ -39,6 +39,16 @@ const GlobalStyle = createGlobalStyle`
     font-weight: ${({ theme }) => theme.fontWeights.normal};
     color: ${({ theme }) => theme.colors.default.text};
   }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a.selected,
+  a:hover {
+    color: ${({ theme }) => theme.colors.primary.bg}
+  }
 `;
 
 export { GlobalStyle };

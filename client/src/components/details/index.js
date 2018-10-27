@@ -1,1 +1,1 @@
-export { default as BookDetails } from './BookCover';
+export { default as BookDetails } from './BookDetails';
