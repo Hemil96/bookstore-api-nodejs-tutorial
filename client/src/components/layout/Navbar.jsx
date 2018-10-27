@@ -58,8 +58,7 @@ class Navbar extends React.Component {
 
   onChange = e => this.setState({ search: e.target.value });
 
-  /* TODO navlink selection for buy can only match root or details. maybe just have a "Sell a book" link
-    and have the brand be a link to home? */
+  // TODO navlink selection for buy can only match root or details. maybe just have a "Sell a book" link and have the brand be a link to home?
   render() {
     return (
       <StyledNavbar>

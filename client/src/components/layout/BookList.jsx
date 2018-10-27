@@ -50,8 +50,6 @@ const AuthorAndFormat = styled(Flex)`
   font-weight: ${({ theme }) => theme.fontWeights.light};
 `;
 
-// TODO item should be link to /details/:index
-// TODO should have a selectedIndex prop to keep it highlighted
 const BookList = props => (
   <BookListing>
     <Header>Browse</Header>

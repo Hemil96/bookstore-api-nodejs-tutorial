@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import ModifyOptions from './ModifyOptions';
 import BookCover from './BookCover';
 import BookPrice from './BookPrice';
 import { PrimaryButton as OrderButton } from '../ui';
@@ -9,7 +10,7 @@ const DetailsBox = styled.article`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
-  padding: 56px 15px;
+  padding: 24px 15px;
 `;
 
 const OverviewSection = styled.section`
@@ -46,7 +47,7 @@ const BuySection = styled.section`
   margin: 0 auto;
 `;
 
-const ErrorState = () => (
+const ErrorView = () => (
   <DetailsBox>
     <OverviewSection>
       <OverviewHeader />
@@ -58,26 +59,28 @@ const ErrorState = () => (
   </DetailsBox>
 );
 
-// TODO cheeseburger icon to edit/delete book
 const BookDetails = ({ title, author, overview, price, format }) => {
   const hasError = !(author && title && price);
-  if (hasError) return <ErrorState />;
+  if (hasError) return <ErrorView />;
 
   return (
-    <DetailsBox>
-      <OverviewSection>
-        <OverviewHeader>
-          <Title>{title}</Title>
-          <Author>{`By ${author}`}</Author>
-        </OverviewHeader>
-        <Overview>{overview}</Overview>
-      </OverviewSection>
-      <BuySection>
-        <BookCover title={title} author={author} />
-        <BookPrice price={price} format={format} />
-        <OrderButton>Buy</OrderButton>
-      </BuySection>
-    </DetailsBox>
+    <>
+      <ModifyOptions />
+      <DetailsBox>
+        <OverviewSection>
+          <OverviewHeader>
+            <Title>{title}</Title>
+            <Author>{`By ${author}`}</Author>
+          </OverviewHeader>
+          <Overview>{overview}</Overview>
+        </OverviewSection>
+        <BuySection>
+          <BookCover title={title} author={author} />
+          <BookPrice price={price} format={format} />
+          <OrderButton>Buy</OrderButton>
+        </BuySection>
+      </DetailsBox>
+    </>
   );
 };
 
