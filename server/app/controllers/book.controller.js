@@ -3,16 +3,19 @@ const Book = require('../models/book.model.js');
 // Create and Save a new Book
 exports.create = (req, res) => {
     // Validate request
-    if(!req.body.author || !req.body.name) {
+    if(!req.body.author || !req.body.title) {
         return res.status(400).send({
-            message: "Book name or author can not be empty"
+            message: "Book title or author can not be empty"
         });
     }
 
     // Create a Book
     const book = new Book({
-        name: req.body.name,
-        content: req.body.content
+        title: req.body.title,
+        author: req.body.author,
+        price: req.body.price,
+        format: req.body.format,
+        overview: req.body.overview
     });
 
     // Save Book in the database
@@ -63,16 +66,19 @@ exports.findOne = (req, res) => {
 // Update a book identified by the bookId in the request
 exports.update = (req, res) => {
     // Validate Request
-    if(!req.body.name || !req.body.author) {
+    if(!req.body.title || !req.body.author) {
         return res.status(400).send({
-            message: "Book name or author can not be empty"
+            message: "Book title or author can not be empty"
         });
     }
 
     // Find book and update it with the request body
     Book.findByIdAndUpdate(req.params.bookId, {
-        name: req.body.name,
-        author: req.body.author
+        title: req.body.title,
+        author: req.body.author,
+        price: req.body.price,
+        format: req.body.format,
+        overview: req.body.overview
     }, {new: true})
     .then(book => {
         if(!book) {
