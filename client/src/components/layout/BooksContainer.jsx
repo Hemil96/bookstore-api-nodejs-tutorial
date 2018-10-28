@@ -22,9 +22,7 @@ class BooksContainer extends React.Component {
   };
 
   componentDidMount() {
-    if (this.state.books.length === 0) {
-      api.fetchBooks().then(books => this.setState({ books }));
-    }
+    api.fetchBooks().then(books => this.setState({ books }));
   }
 
   handleSave = newBook => {
