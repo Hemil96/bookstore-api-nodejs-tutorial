@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { BookDetails } from '../details';
@@ -15,57 +15,54 @@ const Content = styled.main`
   height: 540px;
 `;
 
-class BooksContainer extends React.Component {
-  state = {
-    books: [],
-    selectedBook: {},
+export default function BooksContainer() {
+  const books = useBooksAPI();
+  const handleSave = books.save;
+
+  const renderSellRoute = () => <SellBook handleSave={handleSave} />;
+
+  const renderDetailsRoute = ({ match }) => {
+    const selectedBook = books.data.find(book => book._id === match.params.id);
+    return <BookDetails {...selectedBook} />;
   };
 
-  componentDidMount() {
-    api.fetchBooks().then(books => this.setState({ books }));
-  }
-
-  handleSave = newBook => {
-    return api.saveBook(newBook).then(savedBook => {
-      const books = [savedBook, ...this.state.books];
-      this.setState({ books });
-    });
-  };
-
-  // TODO just change the book in books array instead of calling db again
-  handleUpdate = (id, updatedBook) => {
-    return api
-      .updateBook(id, updatedBook)
-      .then(api.fetchBooks)
-      .then(books => this.setState({ books }));
-  };
-
-  // TODO just change the book in books array instead of calling db again
-  handleDelete = id => {
-    return api
-      .deleteBook(id)
-      .then(api.fetchBooks)
-      .then(books => this.setState({ books }));
-  };
-
-  // Passed to React Router's Switch component. Prevents prop drilling.
-  routerProps = {
-    renderDetails: ({ match }) => (
-      <BookDetails
-        {...this.state.books.find(book => book._id === match.params.id)}
+  return (
+    <Content>
+      <RouterSwitch
+        renderSell={renderSellRoute}
+        renderDetails={renderDetailsRoute}
       />
-    ),
-    renderSell: () => <SellBook handleSave={this.handleSave} />,
-  };
-
-  render() {
-    return (
-      <Content>
-        <RouterSwitch {...this.routerProps} />
-        <BookList books={this.state.books} />
-      </Content>
-    );
-  }
+      <BookList books={books.data} />
+    </Content>
+  );
 }
 
-export default BooksContainer;
+function useBooksAPI() {
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    api
+      .fetchBooks()
+      .then(setBooks)
+      .catch(e => console.error(e));
+  }, []);
+
+  return {
+    data: books,
+    fetch: () => api.fetchBooks().then(setBooks),
+    save: newBook =>
+      api.saveBook(newBook).then(savedBook => {
+        setBooks([...books, savedBook]);
+      }),
+    update: (id, updated) =>
+      api
+        .updateBook(id, updated)
+        .then(api.fetchBooks)
+        .then(setBooks),
+    delete: id =>
+      api
+        .deleteBook(id)
+        .then(api.fetchBooks)
+        .then(setBooks),
+  };
+}
