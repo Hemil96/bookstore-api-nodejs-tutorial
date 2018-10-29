@@ -7,7 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import theme from './theme';
 import App from './App';
 
-// Need to put ThemeProvider here because it can only have a single child
+// TODO unless ModalProvider is gonna be used in a bunch of places, move it
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <ModalProvider>
