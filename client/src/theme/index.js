@@ -18,6 +18,7 @@ const theme = {
     },
     danger: {
       bg: '#842429',
+      text: '#dedede',
     },
   },
   fontWeights: {

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ReactModal from 'styled-react-modal';
 
 import moreIcon from '../../img/more.svg';
 
@@ -42,8 +41,7 @@ export const Options = styled.ul`
   color: ${({ theme }) => theme.colors.default.bg};
 `;
 
-// TODO change to button tag while keeping same look and feel
-export const Toggle = styled.a``;
+export const Toggle = styled.span``;
 
 export const Option = styled.li`
   list-style: none;
@@ -67,11 +65,21 @@ export const Option = styled.li`
   }
 `;
 
-export const Modal = styled(ReactModal)`
-  width: 20vw;
-  height: 20vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+export const ModalContent = styled.article`
   background-color: ${props => props.theme.colors.default.bg};
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  font-size: 18px;
+`;
+
+export const ModalClose = styled.span`
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  font-size: 2em;
 `;

@@ -58,13 +58,20 @@ class Navbar extends React.Component {
 
   onChange = e => this.setState({ search: e.target.value });
 
-  // TODO navlink selection for buy can only match root or details. maybe just have a "Sell a book" link and have the brand be a link to home?
   render() {
     return (
       <StyledNavbar>
         <Brand>Darnes and Global</Brand>
         <div>
-          <NavLink exact to={'/'} activeClassName={'active'}>
+          <NavLink
+            to={'/'}
+            activeClassName={'active'}
+            isActive={(_, location) =>
+              // Add active styling for home page and details pages
+              location.pathname.includes('/details') ||
+              location.pathname === '/'
+            }
+          >
             Buy
           </NavLink>
           <NavLink to={'/sell'} activeClassName={'active'}>

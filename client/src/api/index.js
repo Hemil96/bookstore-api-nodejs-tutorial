@@ -17,7 +17,7 @@ function getBookById(id) {
 }
 
 function updateBook(id, updatedBook) {
-  return fetch(`/books/${id}`, {
+  return fetch(`/book/${id}`, {
     method: 'PUT',
     body: JSON.stringify(updatedBook),
     headers: {
@@ -27,13 +27,13 @@ function updateBook(id, updatedBook) {
 }
 
 function deleteBook(id) {
-  return fetch(`/books/${id}`, { method: 'DELETE' }).then(handleResponse);
+  return fetch(`/book/${id}`, { method: 'DELETE' }).then(handleResponse);
 }
 
 async function handleResponse(res) {
-  if (!res.ok) throw Error(res.statusText);
+  if (!res.ok) return console.error(res.statusText);
   const { data } = await res.json();
-  return data;
+  return Promise.resolve(data);
 }
 
 export default {

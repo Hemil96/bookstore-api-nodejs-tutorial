@@ -23,7 +23,7 @@ export default function BooksContainer() {
 
   const renderDetailsRoute = ({ match }) => {
     const selectedBook = books.data.find(book => book._id === match.params.id);
-    return <BookDetails {...selectedBook} />;
+    return <BookDetails {...selectedBook} handleDelete={books.delete} />;
   };
 
   return (

@@ -134,7 +134,7 @@ class SellBook extends React.Component {
       <Container>
         <Header>Sell Your Book</Header>
         <Message error={this.state.error} success={this.state.success}>
-          {this.state.feedback || 'Please provide some informatiiiion:'}
+          {this.state.feedback || 'Please provide some information:'}
         </Message>
         <form
           onChange={this.handleChange}

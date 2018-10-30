@@ -59,13 +59,17 @@ const ErrorView = () => (
   </DetailsBox>
 );
 
-const BookDetails = ({ title, author, overview, price, format }) => {
+const BookDetails = ({ title, author, overview, price, format, ...props }) => {
   const hasError = !(author && title && price);
   if (hasError) return <ErrorView />;
 
+  const handleDelete = () => {
+    props.handleDelete(props._id);
+  };
+
   return (
     <>
-      <ModifyMenu />
+      <ModifyMenu handleDelete={handleDelete} />
       <DetailsBox>
         <OverviewSection>
           <OverviewHeader>

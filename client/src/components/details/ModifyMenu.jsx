@@ -1,35 +1,70 @@
 import React, { useState } from 'react';
+import Modal, { ModalProvider } from 'styled-react-modal';
 
-import { Hamburger, Options, Option, Toggle, Modal } from './modifyMenu.styled';
+import {
+  Hamburger,
+  Options,
+  Option,
+  Toggle,
+  ModalContent,
+  ModalClose,
+} from './modifyMenu.styled';
+import { DangerButton, BorderedButton } from '../ui';
 
-export default function ModifyMenu() {
+export default function ModifyMenu(props) {
   const modifyToggle = useModalToggle();
   const deleteToggle = useModalToggle();
 
   const ModifyModal = () => <p>This is my modify modal</p>;
-  const DeleteModal = () => <p>This is my delete modal</p>;
+  const DeleteModal = () => (
+    <>
+      <p>Are you sure you want to delete this book?</p>
+      <BorderedButton
+        style={{ height: '40px', marginBottom: '5px' }}
+        onClick={deleteToggle.toggleModal}
+      >
+        Cancel
+      </BorderedButton>
+      <DangerButton
+        style={{ height: '40px', marginTop: '5px' }}
+        onClick={handleDelete}
+      >
+        Delete
+      </DangerButton>
+    </>
+  );
+
+  const handleDelete = () => {
+    props
+      .handleDelete()
+      .then(() => (window.location = '/'))
+      .catch(e => console.error(e));
+    deleteToggle.toggleModal();
+  };
 
   return (
-    <Hamburger>
-      <Options>
-        <Option>
-          <ModalToggle
-            {...modifyToggle}
-            togglerText="Modify"
-            className="modify"
-            modalContent={ModifyModal}
-          />
-        </Option>
-        <Option>
-          <ModalToggle
-            {...deleteToggle}
-            togglerText="Delete"
-            className="delete"
-            modalContent={DeleteModal}
-          />
-        </Option>
-      </Options>
-    </Hamburger>
+    <ModalProvider>
+      <Hamburger>
+        <Options>
+          <Option>
+            <ModalToggle
+              {...modifyToggle}
+              togglerText="Modify"
+              className="modify"
+              modalContent={ModifyModal}
+            />
+          </Option>
+          <Option>
+            <ModalToggle
+              {...deleteToggle}
+              togglerText="Delete"
+              className="delete"
+              modalContent={DeleteModal}
+            />
+          </Option>
+        </Options>
+      </Hamburger>
+    </ModalProvider>
   );
 }
 
@@ -52,10 +87,12 @@ const ModalToggle = props => (
         document.querySelector('#closeModal').focus();
       }}
     >
-      {props.modalContent()}
-      <button id="closeModal" onClick={props.toggleModal}>
-        Close
-      </button>
+      <ModalContent>
+        <ModalClose id="closeModal" onClick={props.toggleModal}>
+          &times;
+        </ModalClose>
+        {props.modalContent()}
+      </ModalContent>
     </Modal>
   </>
 );
