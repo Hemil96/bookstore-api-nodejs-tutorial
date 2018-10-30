@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { BookDetails } from '../details';
-import { SellBook } from '../views';
 import RouterSwitch from './RouterSwitch';
 import BookList from './BookList';
 import api from '../../api';
+
+import { BookForm } from '../ui';
 
 const Content = styled.main`
   display: grid;
@@ -19,7 +20,14 @@ export default function BooksContainer() {
   const books = useBooksAPI();
   const handleSave = books.save;
 
-  const renderSellRoute = () => <SellBook handleSave={handleSave} />;
+  const renderSellRoute = () => (
+    <BookForm
+      handleSubmit={handleSave}
+      header="Sell your book"
+      message="Please provide some information"
+      submitBtnText="Add to Marketplace"
+    />
+  );
 
   const renderDetailsRoute = ({ match }) => {
     const selectedBook = books.data.find(book => book._id === match.params.id);

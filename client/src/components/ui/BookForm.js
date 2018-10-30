@@ -1,20 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-import { TextInput, Select, TextArea } from '../ui';
-import { PrimaryButton } from '../ui';
+import { PrimaryButton, TextInput, Select, TextArea } from '.';
+
+// TODO add tests
 
 const Container = styled.article`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   align-items: stretch;
-  padding: 15px 0;
+  padding-top: 10px;
 `;
 
 const Header = styled.h2`
   display: inline;
-  margin-top: 0;
 `;
 
 const Message = styled.p`
@@ -55,9 +56,9 @@ const initialBookState = {
   overview: '',
 };
 
-class SellBook extends React.Component {
+export default class BookForm extends React.Component {
   state = {
-    newBook: initialBookState,
+    book: initialBookState,
     isSubmitting: false,
     success: false,
     error: false,
@@ -65,49 +66,60 @@ class SellBook extends React.Component {
   };
 
   componentDidMount() {
-    // Get reference to title input. Used again on submit
+    // Store reference to title input. Used again on submit
     this.titleInput = document.querySelector('#title');
     this.titleInput.focus();
   }
 
   handleChange = e => {
-    const { newBook } = this.state;
-    newBook[e.target.name] = e.target.value;
-    this.setState({ newBook });
+    this.setState({
+      book: {
+        ...this.state.book,
+        [e.target.name]: e.target.value,
+      },
+    });
   };
 
   handleSubmit = e => {
     e.preventDefault();
 
-    const { newBook } = this.state;
+    const { book } = this.state;
 
-    // Convert string to number
-    const numericPrice = Number(newBook.price);
+    // Validate required fields
+    if (!(book.author && book.title && book.price)) {
+      this.setState({
+        error: true,
+        feedback: 'Author, title and price are required',
+      });
+      return;
+    }
+
+    // Convert string price to numeric
+    const numericPrice = Number(book.price);
     if (isNaN(numericPrice)) {
       this.setState({
         error: true,
-        feedback: 'Please enter a numeric price...',
+        feedback: 'Please enter a numeric price',
       });
       return;
     }
 
     // Input is valid
     this.setState({ isSubmitting: true });
-
-    const createdBook = {
-      ...newBook,
+    const newBook = {
+      ...book,
       price: numericPrice,
     };
 
     this.props
-      .handleSave(createdBook)
+      .handleSubmit(newBook)
       .then(() => {
         this.setState({
-          newBook: initialBookState,
+          book: initialBookState,
           isSubmitting: false,
           success: true,
           error: false,
-          feedback: 'Successfully listed your book!',
+          feedback: 'Successfully saved your book!',
         });
 
         // Reset form fields
@@ -118,8 +130,7 @@ class SellBook extends React.Component {
       })
       .catch(() => {
         this.setState({
-          isSubmitting: false,
-          success: false,
+          setSubmitting: false,
           error: true,
           feedback: 'API error :(',
         });
@@ -127,20 +138,18 @@ class SellBook extends React.Component {
   };
 
   render() {
-    const { title, author, price } = this.state.newBook;
-    const { isSubmitting } = this.state;
-
+    const { error, success, feedback, isSubmitting, book } = this.state;
     return (
       <Container>
-        <Header>Sell Your Book</Header>
-        <Message error={this.state.error} success={this.state.success}>
-          {this.state.feedback || 'Please provide some information:'}
-        </Message>
         <form
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
           name="sellForm"
         >
+          <Header>{this.props.header}</Header>
+          <Message error={error} success={success}>
+            {feedback || this.props.message}
+          </Message>
           <TextInput name="title" id="title" label="Title" />
           <TextInput name="author" id="author" label="Author" />
           <Select
@@ -150,12 +159,14 @@ class SellBook extends React.Component {
             selected={formatOptions[0].value}
           />
           <TextInput name="price" id="price" label="Price" />
-          <TextArea name="overview" id="overview" label="Overview" rows={3} />
+          <TextArea name="overview" id="overview" label="Overview" rows={4} />
           <AddButton
             type="submit"
-            disabled={!(title && author && price) || isSubmitting}
+            disabled={
+              !(book.title && book.author && book.price) || isSubmitting
+            }
           >
-            Add to Marketplace
+            {this.props.submitBtnText}
           </AddButton>
         </form>
       </Container>
@@ -163,4 +174,10 @@ class SellBook extends React.Component {
   }
 }
 
-export default SellBook;
+BookForm.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  header: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  submitBtnText: PropTypes.string.isRequired,
+};

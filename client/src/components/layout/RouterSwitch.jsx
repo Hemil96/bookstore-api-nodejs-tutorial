@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router';
 
-import { LandingPage } from '../views';
+import { LandingPage } from '../home';
 
 const Container = styled.div`
   max-height: 100%;
@@ -10,6 +10,7 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.default.bg};
 `;
 
+// Render methods come from BooksContainer
 const RouterSwitch = props => (
   <Container>
     <Switch>
