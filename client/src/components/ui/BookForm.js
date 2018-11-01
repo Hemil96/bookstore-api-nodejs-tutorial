@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 
 import { PrimaryButton, TextInput, Select, TextArea } from '.';
 
-// TODO add tests
-
 const Container = styled.article`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   align-items: stretch;
   padding-top: 10px;
+  width: 100%;
 `;
 
 const Header = styled.h2`
@@ -58,7 +57,7 @@ const initialBookState = {
 
 export default class BookForm extends React.Component {
   state = {
-    book: initialBookState,
+    book: this.props.values || initialBookState,
     isSubmitting: false,
     success: false,
     error: false,
@@ -69,6 +68,7 @@ export default class BookForm extends React.Component {
     // Store reference to title input. Used again on submit
     this.titleInput = document.querySelector('#title');
     this.titleInput.focus();
+    console.log(this.props.values);
   }
 
   handleChange = e => {
@@ -115,7 +115,7 @@ export default class BookForm extends React.Component {
       .handleSubmit(newBook)
       .then(() => {
         this.setState({
-          book: initialBookState,
+          book: this.props.values ? newBook : initialBookState,
           isSubmitting: false,
           success: true,
           error: false,
@@ -123,7 +123,9 @@ export default class BookForm extends React.Component {
         });
 
         // Reset form fields
-        document.forms.sellForm.reset();
+        if (!this.props.values) {
+          document.forms.sellForm.reset();
+        }
 
         // Focus title input
         this.titleInput.focus();
@@ -139,6 +141,7 @@ export default class BookForm extends React.Component {
 
   render() {
     const { error, success, feedback, isSubmitting, book } = this.state;
+
     return (
       <Container>
         <form
@@ -150,16 +153,37 @@ export default class BookForm extends React.Component {
           <Message error={error} success={success}>
             {feedback || this.props.message}
           </Message>
-          <TextInput name="title" id="title" label="Title" />
-          <TextInput name="author" id="author" label="Author" />
+          <TextInput
+            name="title"
+            id="title"
+            label="Title"
+            defaultValue={book.title}
+          />
+          <TextInput
+            name="author"
+            id="author"
+            label="Author"
+            defaultValue={book.author}
+          />
           <Select
             name="format"
             label="Format"
             options={formatOptions}
-            selected={formatOptions[0].value}
+            selected={book.format || formatOptions[0].value}
           />
-          <TextInput name="price" id="price" label="Price" />
-          <TextArea name="overview" id="overview" label="Overview" rows={4} />
+          <TextInput
+            name="price"
+            id="price"
+            label="Price"
+            defaultValue={book.price}
+          />
+          <TextArea
+            name="overview"
+            id="overview"
+            label="Overview"
+            rows={4}
+            defaultValue={book.overview}
+          />
           <AddButton
             type="submit"
             disabled={
@@ -175,9 +199,15 @@ export default class BookForm extends React.Component {
 }
 
 BookForm.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   header: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   submitBtnText: PropTypes.string.isRequired,
+  values: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    format: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    overview: PropTypes.string,
+  }),
 };

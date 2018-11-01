@@ -67,6 +67,7 @@ export const Option = styled.li`
 
 export const ModalContent = styled.article`
   background-color: ${props => props.theme.colors.default.bg};
+  width: 500px;
   padding: 20px;
   display: flex;
   flex-direction: column;

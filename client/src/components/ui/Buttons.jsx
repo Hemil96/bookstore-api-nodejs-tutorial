@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-// TODO hover colors
 const Button = styled.button`
   height: 100%;
   width: 100%;
