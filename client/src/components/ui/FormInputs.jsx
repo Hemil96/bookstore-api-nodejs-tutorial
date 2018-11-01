@@ -26,10 +26,16 @@ const LongText = styled(InputBase)`
   resize: none;
 `;
 
-export const TextInput = ({ name, id, label, placeholder }) => (
+export const TextInput = ({ name, id, label, placeholder, ...props }) => (
   <Label htmlFor={name}>
     {label}
-    <Input as="input" name={name} id={id} placeholder={placeholder} />
+    <Input
+      as="input"
+      name={name}
+      id={id}
+      placeholder={placeholder}
+      {...props}
+    />
   </Label>
 );
 
@@ -46,9 +52,15 @@ export const Select = ({ name, label, options, selected }) => (
   </Label>
 );
 
-export const TextArea = ({ name, label, placeholder, rows }) => (
+export const TextArea = ({ name, label, placeholder, rows, ...props }) => (
   <Label htmlFor={name}>
     {label}
-    <LongText as="textarea" name={name} placeholder={placeholder} rows={rows} />
+    <LongText
+      as="textarea"
+      name={name}
+      placeholder={placeholder}
+      rows={rows}
+      {...props}
+    />
   </Label>
 );

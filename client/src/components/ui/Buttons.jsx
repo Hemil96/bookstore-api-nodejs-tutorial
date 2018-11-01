@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-// TODO hover colors
 const Button = styled.button`
   height: 100%;
   width: 100%;
@@ -32,5 +31,16 @@ export const BorderedButton = styled(Button)`
   &:hover {
     background: ${({ theme }) => theme.colors.accent.bg};
     color: ${({ theme }) => theme.colors.accent.text};
+  }
+`;
+
+export const LinkButton = styled(Button)`
+  background-color: inherit;
+  color: ${({ theme }) => theme.colors.accent.bg};
+  width: auto;
+  padding-top: 15px;
+
+  &:hover {
+    text-decoration: underline;
   }
 `;

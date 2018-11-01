@@ -7,15 +7,32 @@ import {
   Option,
   Toggle,
   ModalContent,
-  ModalClose,
 } from './modifyMenu.styled';
-import { DangerButton, BorderedButton } from '../ui';
+import { DangerButton, BorderedButton, BookForm, LinkButton } from '../ui';
 
 export default function ModifyMenu(props) {
   const modifyToggle = useModalToggle();
   const deleteToggle = useModalToggle();
 
-  const ModifyModal = () => <p>This is my modify modal</p>;
+  const handleSubmit = modifiedBook => {
+    return props.handleUpdate(modifiedBook._id, modifiedBook);
+  };
+
+  const ModifyModal = () => {
+    return (
+      <>
+        <BookForm
+          handleSubmit={handleSubmit}
+          header="Update book"
+          message="Change book details"
+          submitBtnText="Save changes"
+          values={props.selectedBook}
+        />
+        <LinkButton onClick={modifyToggle.toggleModal}>Close</LinkButton>
+      </>
+    );
+  };
+
   const DeleteModal = () => (
     <>
       <p>Are you sure you want to delete this book?</p>
@@ -36,7 +53,7 @@ export default function ModifyMenu(props) {
 
   const handleDelete = () => {
     props
-      .handleDelete()
+      .handleDelete(props.selectedBook._id)
       .then(() => (window.location = '/'))
       .catch(e => console.error(e));
     deleteToggle.toggleModal();
@@ -83,16 +100,8 @@ const ModalToggle = props => (
       isOpen={props.isOpen}
       onBackgroundClick={props.toggleModal}
       onEscapeKeydown={props.toggleModal}
-      afterOpen={() => {
-        document.querySelector('#closeModal').focus();
-      }}
     >
-      <ModalContent>
-        <ModalClose id="closeModal" onClick={props.toggleModal}>
-          &times;
-        </ModalClose>
-        {props.modalContent()}
-      </ModalContent>
+      <ModalContent>{props.modalContent()}</ModalContent>
     </Modal>
   </>
 );

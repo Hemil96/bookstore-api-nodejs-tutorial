@@ -67,6 +67,7 @@ export const Option = styled.li`
 
 export const ModalContent = styled.article`
   background-color: ${props => props.theme.colors.default.bg};
+  width: 500px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -74,12 +75,4 @@ export const ModalContent = styled.article`
   align-items: center;
   border-radius: 4px;
   font-size: 18px;
-`;
-
-export const ModalClose = styled.span`
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-  font-size: 2em;
 `;

@@ -50,7 +50,6 @@ const SearchBar = styled.input`
   color: ${({ theme }) => theme.colors.default.text};
 `;
 
-// TODO search functionality
 class Navbar extends React.Component {
   state = {
     search: '',

@@ -59,28 +59,28 @@ const ErrorView = () => (
   </DetailsBox>
 );
 
-const BookDetails = ({ title, author, overview, price, format, ...props }) => {
-  const hasError = !(author && title && price);
+const BookDetails = ({ book, ...props }) => {
+  const hasError = !book || !(book.author && book.title && book.price);
   if (hasError) return <ErrorView />;
-
-  const handleDelete = () => {
-    props.handleDelete(props._id);
-  };
 
   return (
     <>
-      <ModifyMenu handleDelete={handleDelete} />
+      <ModifyMenu
+        handleDelete={props.handleDelete}
+        handleUpdate={props.handleUpdate}
+        selectedBook={book}
+      />
       <DetailsBox>
         <OverviewSection>
           <OverviewHeader>
-            <Title>{title}</Title>
-            <Author>{`By ${author}`}</Author>
+            <Title>{book.title}</Title>
+            <Author>{`By ${book.author}`}</Author>
           </OverviewHeader>
-          <Overview>{overview}</Overview>
+          <Overview>{book.overview}</Overview>
         </OverviewSection>
         <BuySection>
-          <BookCover title={title} author={author} />
-          <BookPrice price={price} format={format} />
+          <BookCover title={book.title} author={book.author} />
+          <BookPrice price={book.price} format={book.format} />
           <OrderButton>Buy</OrderButton>
         </BuySection>
       </DetailsBox>
