@@ -68,6 +68,7 @@ export default class BookForm extends React.Component {
     // Store reference to title input. Used again on submit
     this.titleInput = document.querySelector('#title');
     this.titleInput.focus();
+    console.log(this.props.values);
   }
 
   handleChange = e => {
